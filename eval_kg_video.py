@@ -25,7 +25,7 @@ def load_video(video_path, num_segments=8, start_secs=-1, end_secs=-1, return_ms
                         num_video_frames=num_segments)
 
     frames = vr.get_batch(frame_indices)
-    print(frames.shape)
+    # print(frames.shape)
     if frames.shape[0] != num_segments:
         num_concat_frames = num_segments - frames.shape[0]
         concat_frames = torch.zeros((num_concat_frames, frames.shape[1], frames.shape[2], frames.shape[3])).type_as(frames).to(frames.device)
@@ -50,7 +50,7 @@ def inference_video(model, tokenizer, question, vid_path,
         vid_path, num_segments=num_frame, return_msg=True, 
         start_secs=start_secs, end_secs=end_secs
     )
-    print('start_secs', start_secs, 'end_secs', end_secs, msg)
+    # print('start_secs', start_secs, 'end_secs', end_secs, msg)
 
     msgs = [
         {'role': 'user', 'content': frames + [question]}, 
@@ -62,7 +62,7 @@ def inference_video(model, tokenizer, question, vid_path,
         tokenizer=tokenizer,
         **params
     )
-    print(answer)
+    # print(answer)
     return answer
 
 
@@ -121,8 +121,8 @@ def main(args):
         answer_id = parse_choice(response, line["all_choices"], line["index2ans"])
         results[idx]["response"] = response
         results[idx]["parser"] = answer_id
-        print("qid {}:\n{}".format(idx, qs))
-        print("AI: {}\nParser: {}\nGT: {}\n".format(response, answer_id, gt_answers))
+        # print("qid {}:\n{}".format(idx, qs))
+        # print("AI: {}\nParser: {}\nGT: {}\n".format(response, answer_id, gt_answers))
 
         global_acc.update(gt_answers, answer_id)
         for t in range(len(QUESTION_TYPES)):
