@@ -13,7 +13,11 @@ from utils.eval_utils import parse_choice, TypeAccuracy
 
 QUESTION_TYPES = ['qa1_step2tool', 'qa2_bestNextStep', 'qa3_nextStep',
                   'qa4_step','qa5_task', 'qa6_precedingStep', 'qa7_bestPrecedingStep',
-                  'qa8_toolNextStep', 'qa9_bestInitial','qa10_bestFinal', 'qa11_domain']
+                  'qa8_toolNextStep', 'qa9_bestInitial','qa10_bestFinal', 'qa11_domain',
+                  'qa12_toolPurpose', 'qa13_actionPurpose', 'qa14_objectPurpose',
+                  'qa15_ToolOtherPurpose', 'qa16_ObjectOtherPurpose', 'qa17_AlternativeTool',
+                  'qa18_AlternativeObject', 'qa19_TaskSameToolSamePurpose',
+                  'qa20_TaskSameObjectSamePurpose']
 
 
 
