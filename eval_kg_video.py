@@ -24,14 +24,15 @@ def load_video(video_path, num_segments=8, start_secs=-1, end_secs=-1, return_ms
                         start_secs=start_secs, end_secs=end_secs,
                         num_video_frames=num_segments)
 
-    frames = vr.get_batch(frame_indices)
+    frames = vr.get_batch(frame_indices).asnumpy()
     # print(frames.shape)
     if frames.shape[0] != num_segments:
-        num_concat_frames = num_segments - frames.shape[0]
+        print('Concat frames...')
+        frames = torch.from_numpy(frames)
+        num_concat_frames = max(num_segments - frames.shape[0], 0)
         concat_frames = torch.zeros((num_concat_frames, frames.shape[1], frames.shape[2], frames.shape[3])).type_as(frames).to(frames.device)
-        frames = torch.cat([frames, concat_frames], dim=0)
+        frames = torch.cat([frames, concat_frames], dim=0).numpy()
 
-    frames = frames.asnumpy()
     frames = [Image.fromarray(v.astype('uint8')) for v in frames]
 
     if return_msg:
@@ -153,8 +154,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", type=str, default="openbmb/MiniCPM-V-2_6")
     parser.add_argument("--image-folder", type=str, default="data/COIN/videos")
-    parser.add_argument("--question-file", type=str, default="data/testing_vqa.json")
-    parser.add_argument("--answers-file", type=str, default="data/answers_minicpmv_f8.json")
+    parser.add_argument("--question-file", type=str, default="data/testing_vqa20.json")
+    parser.add_argument("--answers-file", type=str, default="data/answers_minicpmv_f8_q20.json")
     parser.add_argument("--max_slice_nums", type=int, default=2, help="use 1 if cuda OOM and video resolution > 448*448")
     # parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--max_new_tokens", type=int, default=512)
